@@ -99,3 +99,37 @@ sub setOffset {
 }
 
 1;
+
+
+__END__
+
+=head1 NAME
+
+paint::Box - Draw a labeled and colored rectangular in image, using the GD library.
+
+=head1 SYNOPSIS
+
+ my $box = paint::Box->new($me->{'img'});
+
+ $box->setText($name);
+ $box->setPosition($x,$y);
+ $box->setSize(300/($level + 1) * 1.3);
+
+ $box->draw();
+
+=head1 DESCRIPTION
+
+Draw a labeled and colored rectangular in image, using the GD library.
+
+=head1 EXAMPLES
+
+# see SYNOPSIS for now...
+
+=head1 SEE ALSO
+
+perldoc GD::Simple
+
+=head1 AUTHORS
+
+Boris Däppen <boris_daeppen@bluewin.ch>
+

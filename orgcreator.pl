@@ -55,3 +55,30 @@ $formatter->render($builder->get_tree());
 
 print $formatter->result();
 
+
+__END__
+
+=head1 NAME
+
+orgcreator.pl - Create an organigram of your companys structure out of OpenHRM.
+
+=head1 SYNOPSIS
+
+ perl orgcreator.pl     # creates a graphic
+ perl orgcreator.pl txt # creates text
+
+=head1 DESCRIPTION
+
+This program is designed to use with OpenHRM. Create an organigram of your companys structure. Choose output format text ore graphic.
+
+=head1 EXAMPLES
+
+# see SYNOPSIS for now...
+
+=head1 SEE ALSO
+
+http://sourceforge.net/projects/orangehrm/
+
+=head1 AUTHORS
+
+Boris Däppen <boris_daeppen@bluewin.ch>

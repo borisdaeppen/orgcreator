@@ -92,3 +92,56 @@ sub get_tree {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+logic::Treebuilder - Build a hash-tree.
+
+=head1 SYNOPSIS
+
+ my $builder = logic::Treebuilder->new();
+ 
+ while($query_handle->fetch()) {
+         $builder->append($id, $parent, $label);
+ }
+ 
+ use Data::Dumper;
+ print Dumper($builder->get_tree());
+
+=head1 DESCRIPTION
+
+Use the Treebuilder if you have data like this:
+
+ id     parent      data
+ 1      0           mum
+ 2      1           me
+ 3      1           sista
+ 4      3           nephew
+
+Given the SYNOPSIS above a tree like follows would appear:
+
+       mum
+        |
+        |---------
+        |        |
+        me     sista
+                 |
+                 |
+               nephew
+
+The nodes do contain a lot of information about their position in the tree.
+Use the Data::Dumper module as given in the SYNOPSIS to see what kind of data is provided.
+
+=head1 EXAMPLES
+
+# see SYNOPSIS for now...
+
+=head1 SEE ALSO
+
+perldoc Data::Dumper
+
+=head1 AUTHORS
+
+Boris Däppen <boris_daeppen@bluewin.ch>

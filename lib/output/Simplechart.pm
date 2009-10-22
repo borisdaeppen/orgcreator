@@ -155,7 +155,36 @@ sub PNGtoFile {
     return "file saved: $fname\n";
 }
 
-
-
-
 1;
+
+
+__END__
+
+=head1 NAME
+
+output::Simplechart - Creat a simple chart out of a hash-tree.
+
+=head1 SYNOPSIS
+
+ $formatter = output::Simplechart->new();
+ 
+ $formatter->render($builder->get_tree());
+ 
+ print $formatter->result();
+
+=head1 DESCRIPTION
+
+This module creates a chart out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
+
+=head1 EXAMPLES
+
+# see SYNOPSIS for now...
+
+=head1 SEE ALSO
+
+perldoc logic::Treebuilder
+
+=head1 AUTHORS
+
+Boris Däppen <boris_daeppen@bluewin.ch>
+
