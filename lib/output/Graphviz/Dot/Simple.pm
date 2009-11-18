@@ -80,8 +80,6 @@ sub _paintNode {
     print "\t$id [label=\"$shortname\",shape=box,fontsize=9];\n";
 
     foreach my $chield (@children) {
-        #print "\t$id [label=\"$name\"] -> $chield->{'VAR_id'} [label=\"$chield->{VAR_name}\"];\n";
-        #print "\t$id -> $chield->{'VAR_id'} [label=\"$chield->{VAR_name}\"];\n";
         print "\t$id -> $chield->{'VAR_id'};\n";
     }
 }
@@ -99,11 +97,11 @@ __END__
 
 =head1 NAME
 
-output::Simpletext - Creat a simple text on standard output out of a hash-tree.
+output::Graphviz::Dot::Simple - Write a description of a tree diagram to stdout in the DOT-Format. Use it with the dot-program of Graphviz.
 
 =head1 SYNOPSIS
 
- $formatter = output::Simpletext->new();
+ $formatter = output::Graphviz::Dot::Simple->new();
  
  $formatter->render($builder->get_tree());
  
@@ -111,8 +109,9 @@ output::Simpletext - Creat a simple text on standard output out of a hash-tree.
 
 =head1 DESCRIPTION
 
-This module creates a some text representation out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
-It uses the same interface as output::Simplechart.
+This module creates a text representation out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
+The representation is done using the dot-format of graphviz.
+Use the output to create a picture of the graph using dot of graphviz.
 
 =head1 EXAMPLES
 
@@ -120,7 +119,7 @@ It uses the same interface as output::Simplechart.
 
 =head1 SEE ALSO
 
-perldoc logic::Treebuilder
+perldoc output::Graphviz::Dot::Simple
 
 =head1 AUTHORS
 
