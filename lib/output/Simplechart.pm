@@ -46,6 +46,11 @@ sub render {
 
 }
 
+sub outfile {
+        my $me = shift;
+            $me->{'outfilename'} = shift;
+}
+
 sub _doNode {
     my ($me, $node, $stack) = @_;
 
@@ -138,8 +143,7 @@ sub _paintNode {
 sub result {
     my $obj = shift;
 
-    #return $obj->{'RETVAL'};
-    return scalar $obj->PNGtoFile("test");
+    return scalar $obj->PNGtoFile("$obj->{'outfilename'}.png");
 }
 
 # print to a file

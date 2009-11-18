@@ -34,10 +34,15 @@ sub render {
     my $stack = [];
 
     # write a tree of boxes
-    print "digraph G {\n";
+    $me->{'RETVAL'} .= "digraph G {\n";
     $me->_doNode($tree, $stack);
-    print "}\n";
+    $me->{'RETVAL'} .= "}\n";
 
+}
+
+sub outfile {
+    my $me = shift;
+    $me->{'outfilename'} = shift;
 }
 
 sub _doNode {
@@ -77,17 +82,21 @@ sub _paintNode {
         $shortname = $1;
     }
 
-    print "\t$id [label=\"$shortname\",shape=box,fontsize=9];\n";
+    $me->{'RETVAL'} .= "\t$id [label=\"$shortname\",shape=box,fontsize=9];\n";
 
     foreach my $chield (@children) {
-        print "\t$id -> $chield->{'VAR_id'};\n";
+        $me->{'RETVAL'} .= "\t$id -> $chield->{'VAR_id'};\n";
     }
 }
 
 sub result {
     my $obj = shift;
 
-    return "\n";
+    open (my $MYFILE, ">$obj->{'outfilename'}.dot");
+    print $MYFILE $obj->{'RETVAL'};
+    close ($MYFILE); 
+
+    return "Data written to: $obj->{'outfilename'}.dot\n";
 }
 
 1;

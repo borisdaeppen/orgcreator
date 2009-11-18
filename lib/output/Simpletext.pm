@@ -42,6 +42,11 @@ sub render {
 
 }
 
+sub outfile {
+        my $me = shift;
+            $me->{'outfilename'} = shift;
+}
+
 sub _doNode {
     my ($me, $node, $stack) = @_;
 
@@ -75,18 +80,22 @@ sub _paintNode {
     my $dependents_of_level = 0;
 
     for (0..($level)) {
-        print "\t";
+        $me->{'RETVAL'} .= "\t";
     }
-    print $name;
-    print "\n";
+    $me->{'RETVAL'} .= $name;
+    $me->{'RETVAL'} .= "\n";
 }
 
 sub result {
     my $obj = shift;
 
-    #return $obj->{'RETVAL'};
-    return "END\n";
+    open (my $MYFILE, ">$obj->{'outfilename'}.txt");
+    print $MYFILE $obj->{'RETVAL'};
+    close ($MYFILE);
+
+    return "Data written to: $obj->{'outfilename'}.txt\n";
 }
+
 
 1;
 

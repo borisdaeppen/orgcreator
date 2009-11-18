@@ -118,6 +118,7 @@ elsif($module eq 'simple') {
     $formatter = output::Simplechart->new();
 }
 
+$formatter->outfile($file);
 $formatter->render($builder->get_tree());
 
 print $formatter->result();
