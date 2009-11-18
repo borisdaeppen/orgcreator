@@ -1,0 +1,8 @@
+Package: orgcreator
+Version: 0.1
+Section: utils
+Priority: extra
+Architecture: all
+Depends: bash, graphviz, perl, xdialog
+Maintainer: Boris Däppen <boris_daeppen@bluewin.ch>
+Description: Create a company organigram out of your orangeHRM sources.

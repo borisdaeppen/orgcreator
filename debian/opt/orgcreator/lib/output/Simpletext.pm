@@ -1,11 +1,15 @@
 #!/usr/bin/perl
 
-package output::Graphviz::Dot::Simple;
+package output::Simpletext;
 
 use strict;
 use warnings;
 
+use GD::Simple;
+
 use lib 'lib/';
+
+use paint::Box;
 
 sub new {
     my $class = shift;
@@ -34,15 +38,13 @@ sub render {
     my $stack = [];
 
     # write a tree of boxes
-    $me->{'RETVAL'} .= "digraph G {\n";
     $me->_doNode($tree, $stack);
-    $me->{'RETVAL'} .= "}\n";
 
 }
 
 sub outfile {
-    my $me = shift;
-    $me->{'outfilename'} = shift;
+        my $me = shift;
+            $me->{'outfilename'} = shift;
 }
 
 sub _doNode {
@@ -77,29 +79,23 @@ sub _paintNode {
 
     my $dependents_of_level = 0;
 
-    my $shortname = $name;
-    if ($name =~ m/(.*)Department/ or $name =~ m/(.*)Division/) {
-        $shortname = $1;
+    for (0..($level)) {
+        $me->{'RETVAL'} .= "\t";
     }
-
-    $me->{'RETVAL'} .= "\t$id [label=\"$shortname\",shape=box,fontsize=9];\n";
-
-    foreach my $chield (@children) {
-        $me->{'RETVAL'} .= "\t$id -> $chield->{'VAR_id'};\n";
-    }
+    $me->{'RETVAL'} .= $name;
+    $me->{'RETVAL'} .= "\n";
 }
 
 sub result {
     my $obj = shift;
 
-    open (my $MYFILE, ">$obj->{'outfilename'}.dot");
+    open (my $MYFILE, ">$obj->{'outfilename'}.txt");
     print $MYFILE $obj->{'RETVAL'};
-    close ($MYFILE); 
+    close ($MYFILE);
 
-    `dot -Tpng $obj->{'outfilename'}.dot -o $obj->{'outfilename'}.png`;
-
-    return "Data written to: $obj->{'outfilename'}.dot and $obj->{'outfilename'}.png\n";
+    return "Data written to: $obj->{'outfilename'}.txt\n";
 }
+
 
 1;
 
@@ -108,11 +104,11 @@ __END__
 
 =head1 NAME
 
-output::Graphviz::Dot::Simple - Write a description of a tree diagram to stdout in the DOT-Format. Use it with the dot-program of Graphviz.
+output::Simpletext - Creat a simple text on standard output out of a hash-tree.
 
 =head1 SYNOPSIS
 
- $formatter = output::Graphviz::Dot::Simple->new();
+ $formatter = output::Simpletext->new();
  
  $formatter->render($builder->get_tree());
  
@@ -120,9 +116,8 @@ output::Graphviz::Dot::Simple - Write a description of a tree diagram to stdout 
 
 =head1 DESCRIPTION
 
-This module creates a text representation out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
-The representation is done using the dot-format of graphviz.
-Use the output to create a picture of the graph using dot of graphviz.
+This module creates a some text representation out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
+It uses the same interface as output::Simplechart.
 
 =head1 EXAMPLES
 
@@ -130,7 +125,7 @@ Use the output to create a picture of the graph using dot of graphviz.
 
 =head1 SEE ALSO
 
-perldoc output::Graphviz::Dot::Simple
+perldoc logic::Treebuilder
 
 =head1 AUTHORS
 
