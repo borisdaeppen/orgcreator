@@ -13,6 +13,7 @@ use lib 'lib';
 # private modules
 use output::Simpletext;
 use output::Simplechart;
+use output::Graphviz::Dot::Simple;
 use logic::Treebuilder;
  
 # Database variables
@@ -46,6 +47,9 @@ while($query_handle->fetch()) {
 my $formatter;
 if($ARGV[0] eq 'txt') {
     $formatter = output::Simpletext->new();
+}
+if($ARGV[0] eq 'dot') {
+    $formatter = output::Graphviz::Dot::Simple->new();
 }
 else {
     $formatter = output::Simplechart->new();
