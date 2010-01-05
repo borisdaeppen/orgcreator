@@ -1,9 +1,0 @@
-956dbed7b6a0ea134084f74f217ac6c8  /opt/orgcreator/icon48.png
-d83b6f4b8b9deeb084c4fcf89904335f  /opt/orgcreator/lib/output/Simplechart.pm
-3c72345b6e897b5d9e9d039f5a97fb22  /opt/orgcreator/lib/output/Simpletext.pm
-1c1c300359b3c4d5879bcc6bcdf83cdb  /opt/orgcreator/lib/output/Graphviz/Dot/Simple.pm
-971350449c22472620dfe4988143b8d2  /opt/orgcreator/lib/paint/Box.pm
-5c96d950a9d5f7370e21a312374f75cd  /opt/orgcreator/lib/logic/Treebuilder.pm
-15019d93e713dc482676e26183a085f5  /usr/bin/orgcreator_gui
-1b2953309e9530b9b7fdc1ff1f65331b  /usr/bin/orgcreator
-dac71d0c029cb27fa4492ebfc8d69430  /usr/share/applications/orgcreator.desktop

@@ -7,7 +7,7 @@ use Gtk2::GladeXML;
 
 my $rendering_type = 'dot';
 
-my $gui = Gtk2::GladeXML->new('lib/gui/orgcreatorgtk.glade');
+my $gui = Gtk2::GladeXML->new('/opt/orgcreator/lib/gui/orgcreatorgtk.glade');
 
 $gui->signal_autoconnect_from_package();
 
@@ -60,7 +60,7 @@ sub on_run_clicked {
         }
     }
 
-    my $command = "orgcreator.pl $argumentlist";
+    my $command = "orgcreator $argumentlist";
 
     my $output = `bash -c '$command' 2>&1`;
 
