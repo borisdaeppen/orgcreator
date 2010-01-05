@@ -7,7 +7,7 @@ use Gtk2::GladeXML;
 
 my $rendering_type = 'dot';
 
-my $gui = Gtk2::GladeXML->new('orgcreatorgtk.glade');
+my $gui = Gtk2::GladeXML->new('lib/gui/orgcreatorgtk.glade');
 
 $gui->signal_autoconnect_from_package();
 
