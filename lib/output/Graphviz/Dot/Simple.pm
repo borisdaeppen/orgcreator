@@ -30,92 +30,55 @@ sub new {
     bless ($obj, $class);
 
     # object variables
-    $obj->{'RETVAL'}        = '';
-    $obj->{'img'}           = undef;
-    $obj->{'img_width'}     = 8000;
-    $obj->{'img_height'}    = 1200;
-    $obj->{'offset'}        = 60;
-    $obj->{'last_level'}    = -1;
-    $obj->{'nesting'}       = 0;
-    $obj->{'x_stack'}       = [];
-
-    $obj->{'img_x_centre'}  = int ($obj->{'img_width'} / 2);
-    $obj->{'img_y_centre'}  = int ($obj->{'img_height'} / 2);
+    $obj->{'dot_start'} = "digraph G {\n";
+    $obj->{'dot_data'}  = '';
+    $obj->{'dot_end'}   = "}\n";
 
     return ($obj);
 }
 
-sub render {
-    my ($me, $tree) = @_;
+sub append_node {
+    my ($obj, $id, $parent, $node_name_full) = @_;
 
-    my $stack = [];
+    #print "--> $id, $parent, $node_name_full\n";
 
-    # write a tree of boxes
-    $me->{'RETVAL'} .= "digraph G {\n";
-    $me->_doNode($tree, $stack);
-    $me->{'RETVAL'} .= "}\n";
-
-}
-
-sub outfile {
-    my $me = shift;
-    $me->{'outfilename'} = shift;
-}
-
-sub _doNode {
-    my ($me, $node, $stack) = @_;
-
-    push (@{$stack}, $node);
-
-    $me->_paintNode($node, $stack);
-
-    my @children    = @{$node->{'VAR_children'}};
-
-    foreach my $chield_node (@children) {
-        $me->_doNode($chield_node, $stack);
-        pop (@{$stack});
-    }
-}
-
-sub _paintNode {
-    my ($me, $node, $stack) = @_;
-    #
-
-    my $level       = (scalar @{$stack}) - 1;
-    my $name        = $node->{'VAR_name'};
-    my $weight      = $node->{'VAR_dependents'};
-    my $parentid    = $node->{'VAR_parentid'};
-    my $id          = $node->{'VAR_id'};
-    my @children    = @{$node->{'VAR_children'}};
-
-    my $parent = $stack->[$level - 1];
-    my $parent_chield_numb = scalar @{$parent->{'VAR_children'}};
-    my $total_number_of_nodes = $stack->[0]->{'VAR_dependents'} + 1;
-
-    my $dependents_of_level = 0;
-
-    my $shortname = $name;
-    if ($name =~ m/(.*)Department/ or $name =~ m/(.*)Division/) {
-        $shortname = $1;
+    my $node_name = $node_name_full;
+    if ($node_name_full =~ m/(.*)Department/ or $node_name_full =~ m/(.*)Division/) {
+        $node_name = $1;
     }
 
-    $me->{'RETVAL'} .= "\t$id [label=\"$shortname\",shape=box,fontsize=9];\n";
+    $obj->{'dot_data'} .= "\t$id [label=\"$node_name\",shape=box,fontsize=9];\n";
+    $obj->{'dot_data'} .= "\t$parent -> $id;\n" unless ($parent eq 0);
+}
+ 
 
-    foreach my $chield (@children) {
-        $me->{'RETVAL'} .= "\t$id -> $chield->{'VAR_id'};\n";
-    }
+sub get_raw_data {
+    my ($obj) = @_;
+
+    return $obj->{'dot_start'} . $obj->{'dot_data'} . $obj->{'dot_end'};
 }
 
-sub result {
-    my $obj = shift;
+sub raw_to_file {
+    my ($obj, $filename) = @_;
 
-    open (my $MYFILE, ">$obj->{'outfilename'}.dot");
-    print $MYFILE $obj->{'RETVAL'};
-    close ($MYFILE); 
+    open (my $F, ">$filename.dot");
+    print $F $obj->get_raw_data();
+    close ($F); 
 
-    `dot -Tpng $obj->{'outfilename'}.dot -o $obj->{'outfilename'}.png`;
 
-    return "Data written to: $obj->{'outfilename'}.dot and $obj->{'outfilename'}.png\n";
+    return "Data written to: $filename.dot\n";
+}
+
+sub graphic_to_file {
+    my ($obj, $filename, $format) = @_;
+
+    $obj->raw_to_file('/tmp/orgcreator.tmpout');
+
+    `dot -T$format '/tmp/orgcreator.tmpout.dot' -o $filename.$format`;
+
+    return "Data written to: $filename.$format\n";
+
+    #TODO: remove tmp file
 }
 
 1;

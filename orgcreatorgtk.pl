@@ -49,8 +49,6 @@ my $menuitem_help = Gtk2::MenuItem->new('Help');
 my $menuitem_quit = Gtk2::MenuItem->new('Quit');
 my $menuitem_about = Gtk2::MenuItem->new('About');
 $menuitem_quit->signal_connect(activate => sub { Gtk2->main_quit });
-#$menuitem_about->signal_connect(activate => sub { Gtk2->main_quit });
-#$menuitem_about->signal_connect(activate => sub { \&on_about_clicked() });
 $menuitem_about->signal_connect(activate => \&on_about_clicked );
 
 $menu_file->add($menuitem_quit);
@@ -106,9 +104,9 @@ $inputdata{'file'}     ->set_text('organigram');
 
 # Create Radio-Button menu #
 ############################
-my @radio_label = ('PNG', 'SVG', 'JPG', 'DOT source', 'plain text');
+my @radio_label = ('png', 'jpg', 'svg', 'dotsrc');
 my $radio_group = undef;
-my $radio_choice = "PNG"; # default value
+my $radio_choice = 'png'; # default value
 
 # create radio button dynamicaly
 foreach my $name (@radio_label) {
@@ -154,7 +152,7 @@ Gtk2->main;
 sub on_run_clicked {
 
     # concatenate all arguments together
-    my $argumentlist = '';
+    my $argumentlist = "--format $radio_choice ";
     while (my ($option, $entry) = each %inputdata) {
         next if ($option =~ /path/);
         my $value = $entry->get_text();

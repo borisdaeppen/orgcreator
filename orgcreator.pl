@@ -43,7 +43,7 @@ my $tablename   = "hs_hr_compstructtree";
 my $user        = "root";
 my $pw          = "123";
 
-my $module      = 'dot';
+my $format      = 'png';
 my $file        = 'company_organigram';
 my $verbose     = 0;
 my $help        = 0;
@@ -56,7 +56,7 @@ my $args_ok = GetOptions   ('platform=s'    =>  \$platform,
                             'user=s'        =>  \$user,
                             'pw=s'          =>  \$pw,
                             'file=s'        =>  \$file,
-                            'module=s'      =>  \$module,
+                            'format=s'      =>  \$format,
                             'verbose'       =>  \$verbose,
                             'help'          =>  \$help,
                            );
@@ -78,7 +78,7 @@ The following options are available:
     user        = [root]                   databse user
     pw          = [123]                    database password
     file        = [company_organigram]     file for the output
-    module      = [dot,[txt,simple]]       type of output
+    format      = [png,[jpg,svg,dotsrc]]          type of output
     verbose     =                          enable messages
     help        =                          see this help
 
@@ -98,7 +98,7 @@ Using the following settings:
     user         = $user         
     pw           = $pw           
     file         = $file 
-    module       = $module 
+    format       = $format 
     verbose      = $verbose      
     help         = $help      
 
@@ -120,29 +120,24 @@ $query_handle->execute();
 my ($id, $parent, $label);
 $query_handle->bind_columns(undef, \$id, \$parent, \$label);
  
-my $builder = logic::Treebuilder->new();
+my $dot = output::Graphviz::Dot::Simple->new();
 while($query_handle->fetch()) {
-    $builder->append($id, $parent, $label);
+    $dot->append_node($id, $parent, $label);
 }
 
 
-#use Data::Dumper;
-#print Dumper($builder->get_tree());
-my $formatter;
-if($module eq 'txt') {
-    $formatter = output::Simpletext->new();
+if($format eq 'png') {
+    print $dot->graphic_to_file($file, 'png');
 }
-elsif($module eq 'dot') {
-    $formatter = output::Graphviz::Dot::Simple->new();
+elsif($format eq 'svg') {
+    print $dot->graphic_to_file($file, 'svg');
 }
-elsif($module eq 'simple') {
-    $formatter = output::Simplechart->new();
+elsif($format eq 'jpg') {
+    print $dot->graphic_to_file($file, 'jpg');
 }
-
-$formatter->outfile($file);
-$formatter->render($builder->get_tree());
-
-print $formatter->result();
+elsif($format eq 'dotsrc') {
+    print $dot->raw_to_file($file);
+}
 
 
 __END__
