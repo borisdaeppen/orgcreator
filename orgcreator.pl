@@ -29,10 +29,7 @@ use Getopt::Long;
 use lib '/opt/orgcreator/lib';
 
 # private modules
-use output::Simpletext;
-use output::Simplechart;
 use output::Graphviz::Dot::Simple;
-use logic::Treebuilder;
  
 # commandline options
 my $platform    = "mysql";
@@ -148,12 +145,11 @@ orgcreator.pl - Create an organigram of your companys structure out of OpenHRM.
 
 =head1 SYNOPSIS
 
- perl orgcreator.pl     # creates a graphic
- perl orgcreator.pl txt # creates text
+ perl orgcreator.pl --help    # see for instructions
 
 =head1 DESCRIPTION
 
-This program is designed to use with OpenHRM. Create an organigram of your companys structure. Choose output format text ore graphic.
+This program is designed to use with OpenHRM. Create an organigram of your companys structure.
 
 =head1 EXAMPLES
 

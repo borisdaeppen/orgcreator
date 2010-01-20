@@ -72,13 +72,16 @@ sub raw_to_file {
 sub graphic_to_file {
     my ($obj, $filename, $format) = @_;
 
-    $obj->raw_to_file('/tmp/orgcreator.tmpout');
+    my $tmp_file = '/tmp/orgcreator.' . getpwuid($<) . '.tmpout';
 
-    `dot -T$format '/tmp/orgcreator.tmpout.dot' -o $filename.$format`;
+    $obj->raw_to_file($tmp_file);
+
+    `dot -T$format $tmp_file.dot -o $filename.$format`;
+
+    unlink("$tmp_file.dot");
 
     return "Data written to: $filename.$format\n";
 
-    #TODO: remove tmp file
 }
 
 1;
