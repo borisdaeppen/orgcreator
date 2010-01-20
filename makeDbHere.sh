@@ -32,8 +32,9 @@ Section: utils
 Priority: extra
 Architecture: all
 Depends: bash, graphviz, perl, libgtk2-perl
+Conflicts: orgcreatorx
 Maintainer: Boris Däppen <boris_daeppen@bluewin.ch>
-Description: Create a company organigram out of your orangeHRM sources.
+Description: Create a company organigram out of your OrangeHRM sources.
 " > debian/DEBIAN/control
     # put new source in package tree
     echo "copy source tree to package"
@@ -48,8 +49,9 @@ Section: utils
 Priority: extra
 Architecture: all
 Depends: bash, graphviz, perl, xdialog
+Conflicts: orgcreatorgtk
 Maintainer: Boris Däppen <boris_daeppen@bluewin.ch>
-Description: Create a company organigram out of your orangeHRM sources.
+Description: Create a company organigram out of your OrangeHRM sources.
 " > debian/DEBIAN/control
     # put new source in package tree
     echo "copy source tree to package"
