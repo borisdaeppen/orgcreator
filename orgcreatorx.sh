@@ -30,7 +30,7 @@ Xdialog --backtitle "Change Options" --title "orgcreator" \
         "user"      "[root]" on \
         "pw"        "[123]" on \
         "file"      "[company_organigram]" off \
-        "module"    "[dot,[txt,simple]]" off 2> /tmp/checklist.tmp.$$
+        "format"    "[png,[jpg,svg,dotsrc]]" off 2> /tmp/checklist.tmp.$$
 
 retval=$?
 
