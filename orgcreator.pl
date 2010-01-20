@@ -108,6 +108,10 @@ ARGS
 # Database connection
 my $dsn         = "dbi:$platform:$database:$host:$port";
 my $connect = DBI->connect($dsn, $user, $pw);
+unless ($connect) {
+    print "orgcreator\tERROR: Database $dsn connection could not be established\n";
+    exit 1;
+}
 my $query = "select id,parnt,title from $database.$tablename order by id";
 my $query_handle = $connect->prepare($query);
 $query_handle->execute();
