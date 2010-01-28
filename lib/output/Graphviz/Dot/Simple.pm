@@ -22,8 +22,7 @@ package output::Graphviz::Dot::Simple;
 use strict;
 use warnings;
 
-use lib 'lib/';
-
+# initialise object
 sub new {
     my $class = shift;
     my $obj = {};
@@ -37,6 +36,7 @@ sub new {
     return ($obj);
 }
 
+# append a node to the tree structure
 sub append_node {
     my ($obj, $id, $parent, $node_name_full) = @_;
 
@@ -51,13 +51,14 @@ sub append_node {
     $obj->{'dot_data'} .= "\t$parent -> $id;\n" unless ($parent eq 0);
 }
  
-
+# print RAW dot-data on stdout
 sub get_raw_data {
     my ($obj) = @_;
 
     return $obj->{'dot_start'} . $obj->{'dot_data'} . $obj->{'dot_end'};
 }
 
+# write RAW dot-data to file
 sub raw_to_file {
     my ($obj, $filename) = @_;
 
@@ -69,6 +70,7 @@ sub raw_to_file {
     return "Data written to: $filename.dot\n";
 }
 
+# render a picture using dot
 sub graphic_to_file {
     my ($obj, $filename, $format) = @_;
 
@@ -91,21 +93,21 @@ __END__
 
 =head1 NAME
 
-output::Graphviz::Dot::Simple - Write a description of a tree diagram to stdout in the DOT-Format. Use it with the dot-program of Graphviz.
+output::Graphviz::Dot::Simple - Write a description of a tree diagram to stdout in the DOT-Format. Can also create graphics using DOT from the GRAPHVIZ project
 
 =head1 SYNOPSIS
 
  $formatter = output::Graphviz::Dot::Simple->new();
  
- $formatter->render($builder->get_tree());
+ $formatter->append_node($id, $parent, $name);
  
- print $formatter->result();
+ print $formatter->get_raw_data();
+ $formatter->raw_to_file($filename);
+ $formatter->graphic_to__data($filename, 'png'); # or jpg/svg
 
 =head1 DESCRIPTION
 
-This module creates a text representation out of a hash-tree. The hash-tree must be from the module logic::Treebuilder.
-The representation is done using the dot-format of graphviz.
-Use the output to create a picture of the graph using dot of graphviz.
+This module allows you to creat a graphic out of a tree structure.
 
 =head1 EXAMPLES
 

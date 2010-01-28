@@ -25,10 +25,10 @@ use DBI;
 use DBD::mysql;
 use Getopt::Long;
 
-# path to private library
+# path to project library
 use lib '/opt/orgcreator/lib';
 
-# private modules
+# project modules
 use output::Graphviz::Dot::Simple;
  
 # commandline options
@@ -45,6 +45,13 @@ my $file        = 'company_organigram';
 my $verbose     = 0;
 my $help        = 0;
 
+# exit with error if no options where set
+unless (scalar @ARGV) {
+    print "\nERROR: no options set at all, this program will probably not work\nexiting...\n\n";
+    exit 1;
+}
+
+# fetch the options to variables
 my $args_ok = GetOptions   ('platform=s'    =>  \$platform,
                             'database=s'    =>  \$database,
                             'host=s'        =>  \$host,
@@ -58,31 +65,34 @@ my $args_ok = GetOptions   ('platform=s'    =>  \$platform,
                             'help'          =>  \$help,
                            );
 
+# abort if getopt found any error
 unless ($args_ok) {
     print "\nERROR in arguments!\nexiting...\n\n";
     exit 1;
 }
 
+# show help and exit if asked by user
 if ($help) {
     print <<ARGS;
 The following options are available:
 
-    platform    = [mysql]                  a DBI compatible word for db-driver
-    database    = [orangehrm]              the name of your database
-    host        = [localhost]              host of the database
-    port        = [3306]                   port of database
-    tablename   = [hs_hr_compstructtree]   table name with info of company structure
-    user        = [root]                   databse user
-    pw          = [123]                    database password
-    file        = [company_organigram]     file for the output
-    format      = [png,[jpg,svg,dotsrc]]          type of output
-    verbose     =                          enable messages
-    help        =                          see this help
+    --platform    = [mysql]                  a DBI compatible word for db-driver
+    --database    = [orangehrm]              the name of your database
+    --host        = [localhost]              host of the database
+    --port        = [3306]                   port of database
+    --tablename   = [hs_hr_compstructtree]   table name with info of company structure
+    --user        = [root]                   databse user
+    --pw          = [123]                    database password
+    --file        = [company_organigram]     file for the output
+    --format      = [png,[jpg,svg,dotsrc]]   type of output
+    --verbose                                enable messages
+    --help                                   see this help and exit
 
 ARGS
 exit 0;
 }
 
+# print configuration if asked by user and proceed
 if ($verbose) {
     print <<ARGS;
 Using the following settings:
@@ -102,18 +112,20 @@ Using the following settings:
 ARGS
 }
 
-# Database connection
+# database connection
 my $dsn         = "dbi:$platform:$database:$host:$port";
 my $connect = DBI->connect($dsn, $user, $pw);
 unless ($connect) {
     print "orgcreator\tERROR: Database $dsn connection could not be established\n";
     exit 1;
 }
+
+# fire query
 my $query = "select id,parnt,title from $database.$tablename order by id";
 my $query_handle = $connect->prepare($query);
 $query_handle->execute();
  
-# Database fetch results
+# database fetch results
 my ($id, $parent, $label);
 $query_handle->bind_columns(undef, \$id, \$parent, \$label);
  
@@ -122,7 +134,7 @@ while($query_handle->fetch()) {
     $dot->append_node($id, $parent, $label);
 }
 
-
+# create output according to requested format
 if($format eq 'png') {
     print $dot->graphic_to_file($file, 'png');
 }
@@ -149,7 +161,7 @@ orgcreator.pl - Create an organigram of your companys structure out of OpenHRM.
 
 =head1 DESCRIPTION
 
-This program is designed to use with OpenHRM. Create an organigram of your companys structure.
+This program is designed for use with OpenHRM. Create an organigram of your companys structure.
 
 =head1 EXAMPLES
 
