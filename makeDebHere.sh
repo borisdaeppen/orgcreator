@@ -74,7 +74,7 @@ done
 
 # create deb package
 echo "build package"
-dpkg-deb --build debian \
+fakeroot dpkg-deb --build debian \
 $( grep Package debian/DEBIAN/control | cut -d" " -f2 )_\
 $( grep Version debian/DEBIAN/control | cut -d" " -f2 )_\
 $( grep Architecture debian/DEBIAN/control | cut -d" " -f2 )\
