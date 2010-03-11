@@ -4,4 +4,4 @@ Name=orgcreator
 Exec=/usr/bin/orgcreator_gui
 Icon=/opt/orgcreator/icon48.png
 Type=Application
-Categories=Application;
+Categories=Office;
