@@ -1,0 +1,17 @@
+orgcreator is designed to run on Ubuntu Linux.
+It may run on any other Linux too.
+
+orgcreator creates an organigram from your company and saves it in common graphic formats...
+...if you use OrangeHRM as your personnel database, though.
+
+
+There is some text about orgcreator here: http://freiquell.wordpress.com/2010/01/24/introducing-orgcreator/
+
+If you want to know more about OrangeHRM, go here: http://sourceforge.net/projects/orangehrm/
+
+
+orgcreator is a very simple program.
+Most of the work is done by Graphviz: http://www.graphviz.org/
+
+Have fun
+
